@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>太极八卦</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        canvas{
+            display: block;
+            border:4px solid salmon;
+            margin: auto;
+        }
+        h1 {
+            width:100%;
+            height:50px;
+            text-align:center;
+            line-height:50px;
+            font-size:36px;
+            color:#fff;
+            background: -webkit-linear-gradient(left,pink 20%, purple 40%,blue 60%,red 80%,yellow 100%);
+        }
+        #box{
+            width:100%;
+            height:400px;
+            position: relative;
+            background: #fff;
+            color:#fff;
+            text-align: center;
+            line-height: 400px;
+            font-size:80px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1> 八卦 </h1>
+    <canvas id="canvas" name="canvas" class="canvas" width="1000" height="1000" >
+        浏览器暂不支持 canvas 标签 
+    </canvas>
+</body>
+<script>
+    var mycanvas = document.getElementById("canvas");
+    var c = mycanvas.getContext("2d");
+    var p = Math.PI;
+    
+    //封装太极圆
+    function Arc(x,y,r,sa,ea,flag,color){
+        this.beginPath();
+        this.arc(x,y,r,sa,ea,flag);
+        this.fillStyle = color;
+        this.fill();
+        this.closePath();
+    }
+
+    //封装太极外面的圆圈
+    function StrokeArc(x,y,r,sa,ea,flag,color,width){
+        this.beginPath();
+        this.arc(x,y,r,sa,ea,flag);
+        this.strokeStyle = color;
+        this.lineWidth = width;
+        this.stroke();
+        this.closePath();
+    }
+
+    c.save();
+    c.translate(500,500);
+    //太极圆
+    Arc.call(c,0,0,100,p/2,-p/2,false,"#ccc");
+    Arc.call(c,0,0,100,p/2,-p/2,true,"#000");
+
+    Arc.call(c,0,50,50,0,p*2,false,"#ccc");
+    Arc.call(c,0,-50,50,0,p*2,false,"#000");
+
+    Arc.call(c,0,50,15,0,p*2,false,"#000");
+    Arc.call(c,0,-50,15,0,p*2,false,"#ccc");
+
+    //外面的圆圈
+    StrokeArc.call(c,0,0,100,0,p*2,false,"#000",10);
+    StrokeArc.call(c,0,0,125,0,p*2,false,"#ccc",40);
+    StrokeArc.call(c,0,0,147,0,p*2,false,"#000",4);
+    StrokeArc.call(c,0,0,159,0,p*2,false,"#fff",20);
+    StrokeArc.call(c,0,0,172,0,p*2,false,"#000",4);
+    StrokeArc.call(c,0,0,206,0,p*2,false,"#ad7b00",70);
+    StrokeArc.call(c,0,0,240,0,p*2,false,"#000",4);
+    StrokeArc.call(c,0,0,292,0,p*2,false,"#fff",100);
+    StrokeArc.call(c,0,0,344,0,p*2,false,"#000",4);
+    StrokeArc.call(c,0,0,356,0,p*2,false,"#906338",20);
+    StrokeArc.call(c,0,0,368,0,p*2,false,"#000",4);
+    
+    var txt = ['兑','乾','坎','艮','震','巽','离','坤'];
+    for(let i= 0;i<txt.length;i++){
+        c.beginPath();
+        c.save();
+        c.font = "40px 楷体";
+        c.fillStyle = "#000";
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+
+        c.rotate(p/2+p/4*i);
+        if(i==1||i==2||i==3){
+            c.translate(0,-209);
+            c.rotate(p);
+            c.translate(0,209);
+        }
+        c.fillText(txt[i],0,-209);
+        c.restore();
+        c.closePath();
+    }
+
+    //卦
+    c.beginPath();
+    c.moveTo(260,-40);
+    c.lineTo(260,40);
+    
+    c.moveTo(290,-40);
+    c.lineTo(290,40);
+
+    c.moveTo(320,-40);
+    c.lineTo(320,-10);
+
+    c.moveTo(320,40);
+    c.lineTo(320,10);
+    c.lineWidth = 10;
+    c.strokeStyle = "#000";
+    c.stroke();
+    c.closePath();
+
+    //卦2
+    c.beginPath();
+    c.save();
+    c.rotate(p/4);
+    c.moveTo(260,-40);
+    c.lineTo(260,40);
+    c.moveTo(290,-40);
+    c.lineTo(290,40);
+    c.moveTo(320,-40);
+    c.lineTo(320,40);
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦三
+    c.beginPath();
+    c.save();
+    c.rotate(p/4*2);
+    c.moveTo(260,-40);
+    c.lineTo(260,-10);
+    c.moveTo(260,10);
+    c.lineTo(260,40);
+
+    c.moveTo(290,-40);
+    c.lineTo(290,40); 
+
+    c.moveTo(320,-40);
+    c.lineTo(320,-10); 
+    c.moveTo(320,10);
+    c.lineTo(320,40); 
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦四
+    c.beginPath();
+    c.save();
+    c.rotate(p/4*3);
+    c.moveTo(260,10);
+    c.lineTo(260,40);
+    c.moveTo(260,-10);
+    c.lineTo(260,-40);
+
+    c.moveTo(290,10);
+    c.lineTo(290,40);
+    c.moveTo(290,-10);
+    c.lineTo(290,-40);
+    c.moveTo(260,10);
+    c.lineTo(260,40);
+    c.moveTo(320,-40);
+    c.lineTo(320,40);
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦五
+    c.beginPath();
+    c.save();
+    c.rotate(p);
+    c.moveTo(260,-40);
+    c.lineTo(260,40);
+
+    c.moveTo(290,-40);
+    c.lineTo(290,-10);
+    c.moveTo(290,10);
+    c.lineTo(290,40);
+
+    c.moveTo(320,-40);
+    c.lineTo(320,-10);
+    c.moveTo(320,10);
+    c.lineTo(320,40);
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦六
+    c.beginPath();
+    c.save();
+    c.rotate(p+p/4);
+    c.moveTo(260,10);
+    c.lineTo(260,40);
+    c.moveTo(260,-10);
+    c.lineTo(260,-40);
+    c.moveTo(290,-40);
+    c.lineTo(290,40);    
+    c.moveTo(320,-40);
+    c.lineTo(320,40);    
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦七
+    c.beginPath();
+    c.save();
+    c.rotate(p+p/2);
+    c.moveTo(260,-40);
+    c.lineTo(260,40);
+
+    c.moveTo(290,-40);
+    c.lineTo(290,-10);
+    c.moveTo(290,10);
+    c.lineTo(290,40);
+    
+    c.moveTo(320,-40);
+    c.lineTo(320,40);
+    c.stroke();
+    c.restore();
+    c.closePath();
+
+    //卦八
+    c.beginPath(); //线开始
+    c.save();      //保存画布当前的状态  
+    c.rotate(2*p-p/4);  //旋转315
+    c.moveTo(260,-10);
+    c.lineTo(260,-40);
+    c.moveTo(260,40);
+    c.lineTo(260,10);
+
+    c.moveTo(290,-40);
+    c.lineTo(290,-10);
+    c.moveTo(290,40);
+    c.lineTo(290,10);
+
+    c.moveTo(320,-40);
+    c.lineTo(320,-10);
+    c.moveTo(320,40);
+    c.lineTo(320,10);
+    c.stroke();     // 
+    c.restore();     
+    c.closePath();  //线结束
+</script>
+</html>
